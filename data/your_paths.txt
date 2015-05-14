@@ -1,0 +1,3 @@
+pos=/Users/yourname/Documents/source_images/
+neg=/Users/yourname/Documents/negative_images/
+out=/Users/yourname/Documents/positive_images/
