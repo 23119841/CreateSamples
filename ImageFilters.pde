@@ -23,6 +23,7 @@ PGraphics warpImage(PImage src, float warpAmt, float brAmt, float rad) {
   pg.imageMode(CENTER);
   pg.translate(img.width/2, img.height/2);
   pg.rotate(random(random(-rad, rad)));
+  pg.scale(random(.98,1.02));
   pg.image(img, 0, 0);
   pg.popMatrix();
   pg.endDraw();
@@ -97,7 +98,7 @@ PImage brightenImage(PImage img, float amt) {
       // skip
     } else {
       int val = (30 * r + 59 * g + 11 * b) / 100;
-      int amtInt = int( map(amt, 0, 1, 0, 255));
+      int amtInt = int( map(amt, 0f, 1f, 0, 125));
       val += amtInt;
       if ( val > 255) val = 255;
       if ( val < 0) val = 0;

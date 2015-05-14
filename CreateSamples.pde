@@ -16,6 +16,8 @@ import org.opencv.core.CvType;
 
 /*
  * CreateSamples for HaarCascade training with OpenCV (alternative method to ./opencv_createsamples)
+ * designed for adding random background images to transparent positive sample. png files
+ *
  * You'll still need to run ./opencv_createsamples to generate the .vec file, but you can omit the -num parameter
  * Instructions: edit the 'posDir', 'negDir', and 'outDir' 
  * You can adjust the rotation amount, brightness amount, and warp amount in 'warpImage' function
@@ -35,12 +37,13 @@ import org.opencv.core.CvType;
 
 // ------------------------------------------------------------------------
 // Editable sample settings 
-float sampleWarpAmt = .04; // +/- skew image
-float sampleBrtAmt = .2; // +/- adjust brightness of all image pixels (except transparent)
+float sampleWarpAmt = .03; // +/- skew image
+float sampleBrtAmt = .015; // +/- adjust brightness of all image pixels (except transparent)
 float sampleRadAmt = PI/32; // +/- rotate image at center
 String posDir = "";
 String negDir = "";
 String outDir = "";
+int maxIterations = 15;
 // ------------------------------------------------------------------------
 
 // OpenCV
@@ -52,7 +55,7 @@ Contour contour;
 List<File> posFiles, negFiles;
 
 // Logic
-int fileCounter = 0, iteration = 0, maxIterations = 30; // adjust to make enough positive samples
+int fileCounter = 0, iteration = 0; // adjust to make enough positive samples
 
 void setup() {
   String[] paths = loadStrings("paths.txt");
@@ -87,7 +90,6 @@ void setup() {
 
 void draw() {
 
-
   if ( fileCounter < posFiles.size()) {
 
     File posFile = posFiles.get(fileCounter);
@@ -117,7 +119,7 @@ void draw() {
     warpImg.save(path);
 
     print("-");
-    if ( iteration++ >= maxIterations) {
+    if ( ++iteration >= maxIterations) {
       println("");
       for (int i = 0; i < maxIterations; i++) {
         print("#");
@@ -169,7 +171,3 @@ PGraphics processFileNoWarp(File posFile, File negFile) {
 
   return posGr;
 }
-
-void keyPressed() {
-}
-
